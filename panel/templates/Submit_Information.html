@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block content %}
+<html lang="fa" dir="rtl">
+    <head>
+        <style>
+
+            h3{
+            font-family: Calibri; 
+            font-size: 25pt;         
+            font-style: normal; 
+            font-weight: bold; 
+            color:#000000;
+            text-align: center; 
+            text-decoration: underline
+            }
+
+            table{
+                width: 60%;
+                opacity: 0.96;
+            font-family: Calibri; 
+            color:rgb(0, 0, 0); 
+            font-size: 11pt; 
+            font-style: normal;
+            font-weight: bold;
+            background-color: silver; 
+            border-collapse: collapse; 
+            border: 2px solid rgb(212, 214, 183)
+            }
+
+            table.inner{
+            border: 0px
+            }
+
+        </style>
+    </head>
+ 
+    <body dir="rtl">
+        <form method="post" class="post-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table align="center" cellpadding = "10" style="display: flex; padding: 60px; margin-top: 2%; width: 1100px;">
+                <tbody style="margin: auto;">
+                    <tr>
+                        <td>
+                            <h3 style="text-align: justify; display: flex; font-family: IranSansBold;">فرم ثبت اطلاعات</h3>    
+                        </td>
+                    </tr>
+
+                    <tr style="font-family: IranSans;">
+                        <td style="display: flex; width: 20rem; padding-right: 5rem;">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert {{ message.tags }}" role="alert" style="display: flex; width: 20rem;">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr style="font-family: IranSans;">
+                        <div class="row">
+                            <td style="width: 20rem;">
+                                <label for="project_employer">کارفرمای پروژه</label>
+                                <input name="project_employer" type="text" class="form-control" id="project_employer" placeholder="کارفرمای پروژه">
+                            </td>
+                            <td style="width: 25rem; padding-right: 5rem;">
+                                <label for="project_manager">مجری پروژه</label>
+                                <input name="project_manager" type="text" class="form-control" id="project_manager" placeholder="مجری پروژه">
+                            </td>
+                        </div>
+                    </tr>
+        
+                    <tr style="font-family: IranSans;">
+                        <td>
+                            <div  class="col-auto my-1">
+                                <label class="mr-sm-2" for="id_date_letter">تاریخ نامه</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                {{ form.date_letter }}
+                            </div>    
+                        </td>
+        
+                        <td style="display: flex; padding-right: 5rem; width: 178%;">
+                            <div class="form-group col-md-6" style="display: felx;">
+                                <label for="letter_number">شماره نامه</label>
+                                <input name="letter_number" type="text" class="form-control" id="letter_number" placeholder="شماره نامه">
+                            </div>
+                        </td>
+                    </tr>
+        
+                    <tr style="font-family: IranSans;">
+                        <div class="row">
+                            <td style="width: 20rem;">
+                                <label for="recipiant">گیرنده نامه</label>
+                                <input name="recipiant" type="text" class="form-control" id="recipiant" placeholder="گیرنده نامه">
+                            </td>
+                            <td style="width: 25rem; padding-right: 5rem;">
+                                <label for="coordinator">هماهنگ کننده</label>
+                                <input name="coordinator" type="text" class="form-control" id="coordinator" placeholder="هماهنگ کننده">
+                            </td>
+                        </div>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+
+                    
+                    <tr style="font-family: IranSans;">
+                        <div class="row">
+                            <td>
+                                <div class="form-outline">
+                                    <label class="form-label" for="description_letter">موضوع یا شرح نامه</label>
+                                    <textarea name="description_letter" class="form-control" id="description_letter" rows="8"></textarea>
+                                </div>
+                            </td>
+
+                            <td style="display: flex; padding-right: 5rem; width: 178%;">
+                                <div class="form-group col-md-6" style="display: felx;">
+                                    <label for="phone">شماره تماس</label>
+                                    <input name="phone" type="text" class="form-control" id="phone" placeholder="تلفن">
+                                </div>
+                            </td>
+
+                            <td style="display: flex; padding-right: 5rem;">
+                                <div class="form-group col-md-6" style="display: felx;">
+                                    <label for="state">استان</label>
+                                    <input name="state" type="text" class="form-control" id="state" placeholder="استان">
+                                    <br/><br/>
+                                </div>
+                            </td>
+
+                            
+
+                            <td style="display: flex; padding-right: 5rem;">
+                                <div  class="col-auto my-1">
+                                    <label class="mr-sm-2" for="id_deposit">تاریخ واریز</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{ form.date_deposit }}
+                                </div>    
+                            </td>
+                        </div>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+
+                    <tr style="font-family: IranSans;">
+                        <div class="row">
+                            <td>
+                                <div class="form-outline">
+                                    <label class="form-label" for="description">توضیحات</label>
+                                    <textarea name="description" class="form-control" id="description" rows="8"></textarea>
+                                </div>
+                            </td>
+                            <td style="display: flex; padding-right: 5rem;">
+                                <div class="form-group col-md-6" style="display: felx;">
+                                    <label for="amount_deposit">مبلغ واریزی</label>
+                                    <input name="amount_deposit" type="text" class="form-control" id="amount_deposit" placeholder="ریال">
+                                </div>
+                            </td>
+                            <td style="display: flex; padding-right: 5rem;">
+                                <div class="form-group col-md-6" style="display: felx;">
+                                    <label for="tracking_code">کد پیگیری</label>
+                                    <input name="tracking_code" type="text" class="form-control" id="tracking_code" placeholder="کد پیگیری">
+                                </div>
+                            </td>
+                            <td style="display: flex; padding-right: 5rem;">
+                                <div class="form-group col-md-6" style="display: felx;">
+                                    <label for="status">وضعیت</label>
+                                    <input name="status" type="text" class="form-control" id="status" placeholder="وضعیت">
+                                </div>
+                            </td>
+                        </div>
+                    </tr>
+
+
+                    <tr class="row">
+                        <td>
+                            <div>
+                                <label for="id_shp_file" class="form-label">فایل با فرمت shp</label>
+                                <input name="shp_file" class="form-control form-control-lg" id="id_shp_file" type="file">
+                            </div>
+                            <div>
+                                <label for="id_doc_file" class="form-label">فایل های ذخیره</label>
+                                <input name="doc_file" class="form-control form-control-lg" id="id_doc_file" type="file">
+                            </div>
+                        </td>
+                    </tr>
+        
+                    <tr>
+                        <td>
+                            <br/><br/>
+                        </td>
+                    </tr>
+        
+                    <tr style="font-family: IranSans;">
+                        <div class="row">
+                            <td>
+                                <button type="submit" value="Submit" class="btn btn-primary btn-lg active" data-toggle="button" aria-pressed="false" autocomplete="off" style="width: 522%; margin-right:-13%" name="update"> ثبت </button>
+                            </td>
+                            <td>
+                                <button type="reset" class="btn btn-secondary btn-lg active" data-toggle="button" aria-pressed="false" autocomplete="off" style="width: 340%; margin-right:270%"> بازنشانی </button>
+                            </td>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </body>
+</html>
+{% endblock %}

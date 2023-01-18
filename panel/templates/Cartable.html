@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load jalali_tags %}
+{% block style %} 
+<style>
+  table.blueTable {
+    border: 1px solid #1C6EA4;
+    background-color: #EEEEEE;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+  }
+
+  .blueTableHover:hover td{
+		background: #d4d4d4;
+	}
+ 
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #AAAAAA;
+    padding: 3px 2px;
+  }
+  table.blueTable tbody td {
+    font-size: 13px;
+  }
+  table.blueTable tr:nth-child(even) {
+    background: #D0E4F5;
+  }
+  table.blueTable thead {
+    background: #1C6EA4;
+    background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+    border-bottom: 2px solid #444444;
+  }
+  table.blueTable thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+
+  table.blueTable tfoot {
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    border-top: 2px solid #444444;
+  }
+  table.blueTable tfoot td {
+    font-size: 14px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+</style>
+{% endblock style %}
+{% block content %}
+<table class="blueTable" style="text-align: center; font-family: IranSansBold;">
+  <thead>
+    <tr>
+      <th>وضعیت</th>
+      <th>توضیحات</th>
+      <th>شرح نامه</th>
+      <th>مبلغ واریز</th>
+      <th>تاریخ واریز</th>
+      <th>کد پیگیری</th>
+      <th>استان</th>
+      <th>تاریخ نامه</th>
+      <th>شماره نامه</th>
+      <th>گیرنده نامه</th>
+      <th>شماره تماس</th>
+      <th>هماهنگ کننده</th>
+      <th>کارفرمای پروژه</th>
+      <th>مجری پروژه</th>
+      <th>ردیف</th>
+      <th>دانلود فایل</th>
+    </tr>
+  </thead>
+  <tbody>
+    <script>
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+        });
+      });
+  </script>
+    {% if Cartables %}
+      {% for Cartable in Cartables %}
+        <tr class='clickable-row blueTableHover' data-href='{% url "Cartable_Details_Path" id=Cartable.project_id %}' style="cursor: pointer; font-family: IranSans;">
+          <td>{{Cartable.status}}</td>
+          <td>{{Cartable.description}}</td>
+          <td>{{Cartable.description_letter}}</td>
+          <td>{{Cartable.amount_deposit}}</td>
+          <td>{{Cartable.date_deposit|to_jalali:'%Y/%m/%d'}}</td>
+          <td>{{Cartable.tracking_code}}</td>
+          <td>{{Cartable.state}}</td>
+          <td>{{Cartable.date_letter|to_jalali:'%Y/%m/%d'}}</td>
+          <td>{{Cartable.letter_number}}</td>
+          <td>{{Cartable.recipiant}}</td>
+          <td>{{Cartable.phone}}</td>
+          <td>{{Cartable.coordinator}}</td>
+          <td>{{Cartable.project_employer}}</td>
+          <td>{{Cartable.project_manager}}</td>
+          <td>{{Cartable.project_id}}</td>
+          <td><a href="{{Cartable.doc_file}}" download  class="btn btn-outline-primary float-right">دانلود</a></td>
+        </tr>
+      {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="10">
+        {% comment %} <div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div> {% endcomment %}
+        {% if Cartables.has_other_pages %}
+            <div class="text-center">
+                <div class="btn-group justify-content-end" role="group" aria-label="Item pagination">
+                    {% if Cartables.has_previous %}
+                        <a href="?page={{ Cartables.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn btn-outline-primary">&laquo;<span>قبلی</span></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        {% endif %}
+        {% for page_number in Cartables.paginator.page_range %}
+            {% if Cartables.number == page_number %}
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <button class="btn btn-outline-primary active">
+                    <span>{{ page_number }} <span class="sr-only"></span></span>
+                </button>
+            {% else %}
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="?page={{ page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn btn-outline-primary">
+                    {{ page_number }}
+                </a>
+            {% endif %}
+        {% endfor %}
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        {% if Cartables.has_next %}
+            <a href="?page={{ Cartables.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="btn btn-outline-primary"><span>بعدی</span>&raquo;</a>
+        {% endif %}
+              </div>
+        {% endif %}
+        {% else %}
+                <td style="font-family: IranSansBold;">
+                  هیچ موردی یافت نشد.
+                </td>
+            </div>
+      </td>
+      {% endif %}
+      <form>
+        <td colspan="4">
+          <div class="input-group">
+            <button type="submit" class="btn btn-outline-primary" for="q">جستجو</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="search" class="form-control rounded" placeholder="جستجو" aria-label="Search" aria-describedby="search-addon" name="q" id="SEARCH_TERM"/>
+          </div>
+        </td>
+      </form>
+      
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}
